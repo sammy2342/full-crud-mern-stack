@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import * as todosAPI from '../../utilities/todos-api'
 
 
 export default function TodoPage() {
@@ -7,21 +8,50 @@ export default function TodoPage() {
         title: '',
         description: ''
     })
+    const [newTodos, setNewTodos] = useState({})
+    const [newTodoInData, setNewTodoInData] = useState([])
+
+
+    // useEffect( function() { 
+    //     console.log('useEffect is running')
+    //     async function getAllTodo() { 
+    //         const todo = await todosAPI.index()
+    //         console.log('hello')
+    //         console.log(todo, 'this is hello')
+    //     }
+    //     getAllTodo()
+    // }, [])
 
     const {title, description} = todos
 
     // console.log(todos, 'this is for the todos')
 
+
+
     function handleChange(evt) { 
-        const newTodo = ({...todos, [evt.target.name]:[evt.target.value]})
+        const newTodo = ({...todos, [evt.target.name]: evt.target.value})
         setTodos(newTodo)
         // console.log(todos)
     }
 
     function handleSubmit(evt) { 
         evt.preventDefault()
-        console.log(todos)
+        todo()
+        console.log(todos, 'this is for the todos')
     }
+
+    async function todo() { 
+        const newTodoo = await todosAPI.create(todos)
+        setNewTodos(newTodoo)
+        console.log(newTodoInData)
+        console.log(newTodos, 'this is fot the new todos')
+    }
+
+    async function getAllTodo() { 
+        const todo = await todosAPI.index()
+        setNewTodoInData(todo)
+    }
+    getAllTodo()
 
     return (
         <>  

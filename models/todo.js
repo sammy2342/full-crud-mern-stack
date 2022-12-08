@@ -6,7 +6,8 @@ const todoSchema = new Schema ({
     title: String,
     description: String
 }, { 
-    timestamps: true
+    timestamps: true, 
+    // toJSON: { virtuals: true }
 })
 
 module.exports = mongoose.model('Todo', todoSchema)
