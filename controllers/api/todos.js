@@ -23,7 +23,7 @@ async function index(req, res) {
     console.log(req.body, 'this is the req.body for the index')
     try {
         const todos = await Todo.find({})
-        console.log(todos, 'this is for the index')
+        res.json(todos)
     } catch(error) {
         console.log(error)
     }

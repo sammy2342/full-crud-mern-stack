@@ -12,15 +12,14 @@ export default function TodoPage() {
     const [newTodoInData, setNewTodoInData] = useState([])
 
 
-    // useEffect( function() { 
-    //     console.log('useEffect is running')
-    //     async function getAllTodo() { 
-    //         const todo = await todosAPI.index()
-    //         console.log('hello')
-    //         console.log(todo, 'this is hello')
-    //     }
-    //     getAllTodo()
-    // }, [])
+    useEffect( function() { 
+        console.log('useEffect is running')
+        async function getAllTodo() { 
+            const todos = await todosAPI.index()
+            setNewTodoInData(todos)
+        }
+        getAllTodo()
+    }, [])
 
     const {title, description} = todos
 
@@ -43,15 +42,15 @@ export default function TodoPage() {
     async function todo() { 
         const newTodoo = await todosAPI.create(todos)
         setNewTodos(newTodoo)
-        console.log(newTodoInData)
+        console.log(newTodoInData, 'this')
         console.log(newTodos, 'this is fot the new todos')
     }
 
-    async function getAllTodo() { 
-        const todo = await todosAPI.index()
-        setNewTodoInData(todo)
-    }
-    getAllTodo()
+    // async function getAllTodo() { 
+    //     const allTodo = await todosAPI.index()
+    //     setNewTodoInData(allTodo)
+    // }
+    // getAllTodo()
 
     return (
         <>  
@@ -73,6 +72,13 @@ export default function TodoPage() {
                 />
                 <button>Add todo</button>
             </form>
+            <div>{newTodoInData.map((todo) => (
+                <div>
+                    <li>{todo.title}</li>
+                    <li>{todo.description}</li>
+                </div>
+                
+            ))}</div>
         </>
     )
 }
