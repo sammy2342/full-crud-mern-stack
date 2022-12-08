@@ -10,3 +10,8 @@ export function create(todoData) {
 export function index() { 
     return sendRequest(BASE_URL)
 }
+
+export function deleteTodo(todoId) { 
+    console.log(todoId, 'this is in the delete')
+    return sendRequest(`${BASE_URL}/${todoId}`, 'DELETE')
+}

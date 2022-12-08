@@ -10,16 +10,20 @@ export default function TodoPage() {
     })
     const [newTodos, setNewTodos] = useState({})
     const [newTodoInData, setNewTodoInData] = useState([])
+    const [findId, setFindId] = useState('')
 
 
     useEffect( function() { 
         console.log('useEffect is running')
         async function getAllTodo() { 
             const todos = await todosAPI.index()
+            console.log(todos)
             setNewTodoInData(todos)
+            console.log(newTodos)
+            // console.log(todos, 'indie the use effect')
         }
         getAllTodo()
-    }, [])
+    }, [newTodos, findId])
 
     const {title, description} = todos
 
@@ -28,9 +32,10 @@ export default function TodoPage() {
 
 
     function handleChange(evt) { 
+        evt.preventDefault()
         const newTodo = ({...todos, [evt.target.name]: evt.target.value})
         setTodos(newTodo)
-        // console.log(todos)
+        // console.log(todos, 'in hande change')
     }
 
     function handleSubmit(evt) { 
@@ -42,8 +47,8 @@ export default function TodoPage() {
     async function todo() { 
         const newTodoo = await todosAPI.create(todos)
         setNewTodos(newTodoo)
-        console.log(newTodoInData, 'this')
-        console.log(newTodos, 'this is fot the new todos')
+        console.log(newTodoInData, 'this is for the newTodoINData')
+        console.log(newTodos, 'this is fot the newTodos')
     }
 
     // async function getAllTodo() { 
@@ -51,6 +56,14 @@ export default function TodoPage() {
     //     setNewTodoInData(allTodo)
     // }
     // getAllTodo()
+
+    async function handleDelete(todoId, id) { 
+        console.log(todoId.target)
+        console.log(todoId.id, 'this', id)
+        const deleteTodo = await todosAPI.deleteTodo({ id: todoId.id })
+        console.log(deleteTodo, 'this is for the handledelete')
+        setFindId(deleteTodo._id)
+    }
 
     return (
         <>  
@@ -72,10 +85,14 @@ export default function TodoPage() {
                 />
                 <button>Add todo</button>
             </form>
-            <div>{newTodoInData.map((todo) => (
-                <div>
+            <div>{newTodoInData.map((todo, idx) => (
+                <div key={idx}>
                     <li>{todo.title}</li>
                     <li>{todo.description}</li>
+                    <button onClick={(event) => {
+                        console.log('onClick event: k', event);
+                        handleDelete(event);
+                    }}>Delete</button>
                 </div>
                 
             ))}</div>

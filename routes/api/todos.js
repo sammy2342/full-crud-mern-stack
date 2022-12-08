@@ -6,4 +6,6 @@ router.post('/', todosCtrl.create)
 
 router.get('/', todosCtrl.index)
 
+router.delete('/:id', todosCtrl.delete)
+
 module.exports = router

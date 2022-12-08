@@ -1,9 +1,12 @@
+const { findByIdAndDelete } = require('../../models/todo')
 const Todo = require('../../models/todo')
+
 
 
 module.exports = { 
     create, 
-    index
+    index, 
+    delete: deleteTodos
 }
 
 async function create(req, res) { 
@@ -24,6 +27,19 @@ async function index(req, res) {
     try {
         const todos = await Todo.find({})
         res.json(todos)
+    } catch(error) {
+        console.log(error)
+    }
+}
+
+async function deleteTodos(req, res) { 
+    console.log(req.params, 'req.params')
+    console.log(req.body)
+    try { 
+        console.log(req.params, 'this is for req.prams in delete')
+        const deleteTodo = await Todo.findOneAndDelete()
+        console.log(deleteTodo, 'this is for the delete todo')
+        res.json(deleteTodo)
     } catch(error) {
         console.log(error)
     }
